@@ -1,12 +1,10 @@
 package com.sumup.preprocessor.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sumup.PreprocessorApplication;
 import com.sumup.config.ConfigService;
 import com.sumup.config.SpringConfig;
 import com.sumup.entity.Article;
-import com.sumup.preprocessor.AbstractPreprocessor;
+import com.sumup.preprocessor.AbstractTopologyBuilder;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KStream;
@@ -24,27 +22,28 @@ import java.util.stream.Stream;
 
 @Component
 @Profile(SpringConfig.ARTICLE_PREPROCESSOR)
-public class ArticlePreprocessor extends AbstractPreprocessor {
-    private static final Logger LOG = LoggerFactory.getLogger(ArticlePreprocessor.class);
+public final class ArticleTopologyBuilder extends AbstractTopologyBuilder {
+    private static final Logger LOG = LoggerFactory.getLogger(ArticleTopologyBuilder.class);
 
-    private final ConfigService config;
     private final String inputTopic;
     private final String outputTopic;
+    private final String tokenizingPattern;
     private final Set<String> keywords;
-    private final ObjectMapper mapper;
+    private final Set<String> common;
 
-    public ArticlePreprocessor(ConfigService config) {
+    public ArticleTopologyBuilder(final ConfigService config) {
         super(config);
+
         this.inputTopic = config.streams().consumer().topic().name();
         this.outputTopic = config.streams().producer().topic().name();
+        this.tokenizingPattern = "[" + String.join("", config.preprocessor().delimiters()) + "]+";
         this.keywords = config.preprocessor().keywords();
-        this.mapper = config.spring().mapper();
-        this.config = config;
+        this.common = config.preprocessor().common();
     }
 
 
     @Override
-    public Topology preprocess() {
+    public Topology buildTopology() {
         final StreamsBuilder builder = new StreamsBuilder();
 
         final KStream<String, String> input = builder.stream(inputTopic);
@@ -54,10 +53,7 @@ public class ArticlePreprocessor extends AbstractPreprocessor {
         return builder.build();
     }
 
-    private Predicate<String, String> notContaining(Set<String> keywords) {
-        final String delimiters = String.join("", config.preprocessor().delimiters());
-        final String tokenizingPattern = "[" + delimiters + "]+";
-
+    private Predicate<String, String> notContaining(final Set<String> keywords) {
         return (key, value) -> {
             try {
                 final Article article = mapper.readValue(value, Article.class);
@@ -68,10 +64,8 @@ public class ArticlePreprocessor extends AbstractPreprocessor {
                 final Set<String> articleUniqueWords = Stream.of(split)
                         .map(String::toLowerCase)
                         // Don't include common words
-                        .filter(word -> {
-                            final Set<String> common = config.preprocessor().common();
-                            return !common.contains(word);
-                        })
+                        .filter(word -> !common.contains(word))
+                        // Discard duplicates
                         .collect(Collectors.toCollection(HashSet::new));
 
                 return keywords.stream().noneMatch(articleUniqueWords::contains);

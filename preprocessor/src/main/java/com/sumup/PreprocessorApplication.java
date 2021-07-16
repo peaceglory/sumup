@@ -1,6 +1,6 @@
 package com.sumup;
 
-import com.sumup.preprocessor.AbstractPreprocessor;
+import com.sumup.preprocessor.AbstractTopologyBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -11,18 +11,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PreprocessorApplication implements CommandLineRunner {
     private static final Logger LOG = LoggerFactory.getLogger(PreprocessorApplication.class);
 
-    private final AbstractPreprocessor preprocessor;
+    private final AbstractTopologyBuilder preprocessor;
 
-    public PreprocessorApplication(AbstractPreprocessor preprocessor) {
+    public PreprocessorApplication(final AbstractTopologyBuilder preprocessor) {
         this.preprocessor = preprocessor;
     }
 
+    // TODO: Validating
+    // TODO: Testing
     public static void main(String[] args) {
         SpringApplication.run(PreprocessorApplication.class, args);
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
+        LOG.info("Starting topology...");
         preprocessor.buildAndStartTopology();
     }
 
