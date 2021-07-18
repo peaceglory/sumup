@@ -12,7 +12,6 @@ public class StreamsConfig {
     private final Class<?> defaultValueSerde = Serdes.String().getClass();
 
     private String kafkaBroker;
-    private String applicationId;
     private Consumer consumer;
     private Producer producer;
 
@@ -77,10 +76,6 @@ public class StreamsConfig {
         return kafkaBroker;
     }
 
-    public String applicationId() {
-        return applicationId;
-    }
-
     public Class<?> defaultKeySerde() {
         return defaultKeySerde;
     }
@@ -99,10 +94,6 @@ public class StreamsConfig {
 
     void setKafkaBroker(String kafkaBroker) {
         this.kafkaBroker = kafkaBroker;
-    }
-
-    void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
     }
 
     void setConsumer(Consumer consumer) {

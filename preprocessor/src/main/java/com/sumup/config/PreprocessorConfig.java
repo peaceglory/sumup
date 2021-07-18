@@ -10,9 +10,14 @@ import java.util.Set;
 @Profile(SpringConfig.ARTICLE_PREPROCESSOR)
 @ConfigurationProperties(prefix = "preprocessor")
 public class PreprocessorConfig {
+    private String applicationId;
     private Set<String> keywords;
     private Set<String> delimiters;
     private Set<String> common;
+
+    public String applicationId() {
+        return applicationId;
+    }
 
     public Set<String> delimiters() {
         return delimiters;
@@ -24,6 +29,10 @@ public class PreprocessorConfig {
 
     public Set<String> common() {
         return common;
+    }
+
+    void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
     }
 
     void setCommon(Set<String> common) {

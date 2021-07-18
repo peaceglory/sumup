@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SpringConfig {
-    public static final String ARTICLE_PREPROCESSOR = "ArticlePreprocessor";
+    public static final String ARTICLE_PREPROCESSOR = "article-preprocessor";
 
     @Bean
     public ObjectMapper mapper() {

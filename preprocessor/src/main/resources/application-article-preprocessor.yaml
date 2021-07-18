@@ -1,0 +1,31 @@
+preprocessor:
+  applicationId: articlePreprocessor
+
+  keywords:
+    - Welcome
+    - to
+    - SumUp
+    - coding
+    - challenge
+
+  delimiters:
+    - "-"
+    - "!"
+    - " "
+    - ","
+    - "."
+    - "?"
+    - "("
+    - ")"
+
+  common:
+    - a
+    - and
+    - for
+    - I
+    - by
+    - of
+    - on
+    - is
+    - as
+

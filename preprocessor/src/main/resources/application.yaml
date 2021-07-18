@@ -1,6 +1,5 @@
 streams:
   kafkaBroker: localhost:9092
-  applicationId: preprocessor
 
   consumer:
     topic:
@@ -11,35 +10,3 @@ streams:
     topic:
       name: filtered_messages
       partitions: 3
-
-preprocessor:
-  keywords:
-    - Welcome
-    - to
-    - SumUp
-    - coding
-    - challenge
-
-  common:
-    - a
-    - and
-    - for
-    - I
-    - by
-    - of
-    - on
-    - is
-    - as
-
-  delimiters:
-    - "-"
-    - "!"
-    - " "
-    - ","
-    - "."
-    - "?"
-    - "("
-    - ")"
-
-
-

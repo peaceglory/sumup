@@ -1,8 +1,18 @@
 package com.sumup.rest.article.dto.request;
 
-public class ArticleRequest {
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotBlank;
+
+//@Validated
+public final class ArticleRequest {
+    @NotBlank
     private final String title;
+
+    @NotBlank
     private final String group;
+
+    @NotBlank
     private final String text;
 
     public ArticleRequest(String title, String group, String text) {

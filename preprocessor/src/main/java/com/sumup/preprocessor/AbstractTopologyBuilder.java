@@ -8,9 +8,11 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Properties;
 
+@Component
 public abstract class AbstractTopologyBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractTopologyBuilder.class);
 
@@ -54,7 +56,7 @@ public abstract class AbstractTopologyBuilder {
 
         properties.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, config.streams().defaultKeySerde());
         properties.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, config.streams().defaultValueSerde());
-        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, config.streams().applicationId());
+        properties.put(StreamsConfig.APPLICATION_ID_CONFIG, config.preprocessor().applicationId());
         properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, config.streams().kafkaBroker());
 
         properties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, config.streams().consumer().autoOffsetReset());

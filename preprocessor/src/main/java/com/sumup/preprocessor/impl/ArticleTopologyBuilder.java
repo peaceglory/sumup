@@ -41,7 +41,6 @@ public final class ArticleTopologyBuilder extends AbstractTopologyBuilder {
         this.common = config.preprocessor().common();
     }
 
-
     @Override
     public Topology buildTopology() {
         final StreamsBuilder builder = new StreamsBuilder();

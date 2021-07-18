@@ -11,13 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PreprocessorApplication implements CommandLineRunner {
     private static final Logger LOG = LoggerFactory.getLogger(PreprocessorApplication.class);
 
-    private final AbstractTopologyBuilder preprocessor;
+    private final AbstractTopologyBuilder topologyBuilder;
 
-    public PreprocessorApplication(final AbstractTopologyBuilder preprocessor) {
-        this.preprocessor = preprocessor;
+    public PreprocessorApplication(AbstractTopologyBuilder topologyBuilder) {
+        this.topologyBuilder = topologyBuilder;
     }
 
-    // TODO: Validating
     // TODO: Testing
     public static void main(String[] args) {
         SpringApplication.run(PreprocessorApplication.class, args);
@@ -26,7 +25,7 @@ public class PreprocessorApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         LOG.info("Starting topology...");
-        preprocessor.buildAndStartTopology();
+        topologyBuilder.buildAndStartTopology();
     }
 
 }
