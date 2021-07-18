@@ -1,2 +1,10 @@
 kafka:
   bootstrapAddress: localhost:9092
+  producer:
+    topic:
+      name: all_messages
+      partitions: 4
+      replication: 1
+
+
+

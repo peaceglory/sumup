@@ -13,18 +13,31 @@ import java.util.Map;
 @Configuration
 public class KafkaTopicConfig {
 
-    @Value(value = "${kafka.bootstrapAddress}")
+    @Value("${kafka.bootstrapAddress}")
     private String bootstrapAddress;
+
+    @Value("${kafka.producer.topic.name}")
+    private String topicName;
+
+    @Value("${kafka.producer.topic.partitions}")
+    private int partitions;
+
+    @Value("${kafka.producer.topic.replication}")
+    private short replication;
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
-        Map<String, Object> configs = new HashMap<>();
+        final Map<String, Object> configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         return new KafkaAdmin(configs);
     }
 
     @Bean
     public NewTopic producingTopic() {
-        return new NewTopic("all_messages", 4, (short) 1);
+        return new NewTopic(topicName, partitions, replication);
+    }
+
+    public String getTopicName() {
+        return topicName;
     }
 }
