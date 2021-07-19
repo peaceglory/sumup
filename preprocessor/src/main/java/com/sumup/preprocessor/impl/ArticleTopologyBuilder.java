@@ -27,6 +27,8 @@ public final class ArticleTopologyBuilder extends AbstractTopologyBuilder {
 
     private final String inputTopic;
     private final String outputTopic;
+
+    /** This pattern is used to tokenize the article text. It is based on preconfigured delimiters. */
     private final String tokenizingPattern;
     private final Set<String> keywords;
     private final Set<String> common;
@@ -47,6 +49,7 @@ public final class ArticleTopologyBuilder extends AbstractTopologyBuilder {
 
         final KStream<String, String> input = builder.stream(inputTopic);
 
+        // Write only articles to the 'filtered_message' topic which don't contain any of the keywords
         input.filter(notContaining(keywords)).to(outputTopic);
 
         return builder.build();
