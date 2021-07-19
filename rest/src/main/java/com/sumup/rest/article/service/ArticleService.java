@@ -21,11 +21,6 @@ public class ArticleService implements ProcessingService<Article, ArticleRespons
         this.converter = converter;
     }
 
-    /**
-     *
-     * @param article
-     * @return
-     */
     @Override
     public ArticleResponse process(Article article) {
         final Article pushed = repository.push(article);

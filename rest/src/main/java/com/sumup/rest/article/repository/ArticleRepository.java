@@ -10,9 +10,7 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.Objects;
 
@@ -33,11 +31,6 @@ public class ArticleRepository implements DataAccessRepository<Article> {
         this.objectMapper = objectMapper;
     }
 
-    /**
-     * @param article
-     * @return
-     * @throws SerializationException
-     */
     public Article push(Article article) {
         final String articleAsString;
 
