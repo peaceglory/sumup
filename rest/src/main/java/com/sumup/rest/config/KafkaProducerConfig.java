@@ -18,12 +18,16 @@ public class KafkaProducerConfig {
     @Value(value = "${kafka.bootstrapAddress}")
     private String bootstrapAddress;
 
+    @Value("${kafka.producer.idempotent}")
+    private boolean enableIdempotency;
+
     @Bean
     public ProducerFactory<String, String> producerFactory() {
         final Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, enableIdempotency);
 
         return new DefaultKafkaProducerFactory<>(configProps);
     }

@@ -6,8 +6,3 @@ kafka:
       partitions: 4
       replication: 1
     idempotent: true
-
-logging:
-  level:
-    com.sumup: DEBUG
-    org.apache.kafka: DEBUG
