@@ -1,11 +1,9 @@
 package com.sumup.rest.article.service;
 
-import com.sumup.rest.article.dto.response.ArticleResponse;
 import com.sumup.rest.article.Article;
+import com.sumup.rest.article.dto.response.ArticleResponse;
 import com.sumup.rest.article.repository.ArticleRepository;
 import com.sumup.rest.article.util.ConverterUtil;
-import com.sumup.rest.exception.definitions.DataAccessException;
-import com.sumup.rest.exception.definitions.ProcessingException;
 import com.sumup.rest.interfaces.service.ProcessingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,16 +21,14 @@ public class ArticleService implements ProcessingService<Article, ArticleRespons
         this.converter = converter;
     }
 
+    /**
+     *
+     * @param article
+     * @return
+     */
     @Override
-    public ArticleResponse process(Article article) throws ProcessingException {
-        final Article pushed;
-        try {
-            pushed = repository.push(article);
-        } catch (DataAccessException e) {
-            final String message = "Processing article " + article.getTitle() + " failed";
-            LOG.error(message, e);
-            throw new ProcessingException(message);
-        }
+    public ArticleResponse process(Article article) {
+        final Article pushed = repository.push(article);
         return converter.from(pushed);
     }
 

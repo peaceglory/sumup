@@ -25,8 +25,7 @@ public class ArticleController {
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<ArticleResponse> postArticle(@Valid @RequestBody ArticleRequest articleRequest)
-                                                       throws Exception {
+    public ResponseEntity<ArticleResponse> postArticle(@Valid @RequestBody ArticleRequest articleRequest) {
         final ArticleResponse response = articleService.process(mapArticle.from(articleRequest));
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

@@ -12,4 +12,8 @@ class ErrorBuilder {
                 .map(ObjectError::getDefaultMessage)
                 .collect(Collectors.toList()));
     }
+
+    Error constructError(String errorMessage) {
+        return new Error(errorMessage);
+    }
 }
